@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DnaLibrary Name="xllPane Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2020/07/dnalibrary">
+	<ExternalLibrary Path="xllPane 2.dll" ExplicitExports="false" LoadFromBytes="true" Pack="false" IncludePdb="false" />
+	<CustomUI>
+		<customUI xmlns='http://schemas.microsoft.com/office/2006/01/customui' loadImage='LoadImage'>
+			<ribbon>
+				<tabs>
+					<tab id='DataTab' label='ЭксельТека'>
+						<group id='DataGroup' label='Анализ данных'>
+							<menu id='DataMenu' label='Обработать...' imageMso='MenuView2'>
+								<button id='NumberButton' label='...числа' onAction='OnNumberClick' imageMso='Numbering'/>
+								<button id='DateButton' label='...даты' onAction='OnDateClick' imageMso='DateAndTimeInsert'/>
+							</menu>
+							<menu id='GrMenu' label='Агрегация' imageMso='XmlSchema'>
+								<button id='UniqeButton' label='Отобрать уникальные значения' onAction='OnUnClick' imageMso='Grouping'/>
+								<button id='AggrButton' label='Агрегировать уникальные значения' onAction='OnAggrClick' imageMso='Consolidate'/>
+							</menu>
+							<menu id='TextMenu' label='Строки' imageMso='MacroNames'>
+								<button id='PropButton' label='Изменить регистр текста' onAction='OnPropClick' imageMso='ContentControlRichText'/>
+								<button id='TrimButton' label='Сжать пробелы' onAction='OnTrimClick' imageMso='EquationNormalText'/>
+								<button id='JoinButton' label='Добавить к строке' onAction='OnJoinClick' imageMso='ActionInsert'/>
+								<button id='FindPaste' label='Заменить по RegEx-паттерну' onAction='OnFindPasteClick' imageMso='ImportTextFile'/>
+								<button id='SplitText' label='Разделить текст' onAction='OnSplitTextClick' imageMso='MasterDocumentSplitSubdocuments'/>
+							</menu>
+						</group>
+						<group id='RanGroup' label='Ячейки и диапозоны'>
+							<button id='UnMeargeButton' label='Отменить объединение ячеек' onAction='OnUnMeargeClick' imageMso='SplitCells'/>
+							<button id='FormulButton' label='Заменить формулы значениями' onAction='OnFormulClick' imageMso='ShowFormulas'/>
+							<button id='ClearButton' label='Очистить' onAction='OnClearClick' imageMso='ClearFormatting'/>
+						</group>
+						<group id='BookShGroup' label='Книги и листы'>
+							<button id='MailSendButton' label='Отправить выделенный диапазон по почте' onAction='OnMailSendClick' imageMso='MicrosoftOutlook'/>
+							<menu id='SaveMenu' label='Сохранить...' imageMso='ExportSavedExports'>
+								<button id='SaveSheetButton' label='Сохранить текущий лист в отдельный файл' onAction='OnSaveShClick' imageMso='ExportExcel'/>
+								<button id='SaveSelSheetButton' label='Сохранить листы в файл...' onAction='OnSaveClick' imageMso='FileSaveAsOtherFormats'/>
+							</menu>
+							<menu id='DataTableMenu' label='Таблицы данных...' imageMso='GroupImport'>
+								<button id='ExportDataTableButton' label='Перенести таблицу в новую книгу' onAction='OnExTableClick' imageMso='DatabaseInsert'/>
+								<button id='ExportXmlButton' label='Сохранить таблицу в xml' onAction='OnTableToXmlClick' imageMso='XmlExport'/>
+							</menu>
+						</group>
+					</tab>
+				</tabs>
+			</ribbon>
+		</customUI>
+	</CustomUI>
+	<ExcelDnaPackCompressResources>false</ExcelDnaPackCompressResources>
+</DnaLibrary>
