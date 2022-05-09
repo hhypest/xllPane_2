@@ -794,7 +794,7 @@ namespace xllPane_2
             }
         }
 
-        public void OnExTableClickAsync(IRibbonControl control)
+        public void OnExTableClick(IRibbonControl control)
         {
             Application app = ExcelDnaUtil.Application as Application;
 
