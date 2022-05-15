@@ -1,4 +1,5 @@
 ﻿using ExcelDna.Integration;
+using System;
 using System.Text.RegularExpressions;
 
 namespace xllPane_2
@@ -17,7 +18,7 @@ namespace xllPane_2
 
             if (string.IsNullOrEmpty(pattern) && string.IsNullOrWhiteSpace(pattern))
             {
-                return $"{nameof(pattern)} не может быть неопределенным или пустым."; ;
+                return $"{nameof(pattern)} не может быть неопределенным или пустым.";
             }
 
             if (count < 0)
@@ -60,6 +61,46 @@ namespace xllPane_2
                 return source;
             }
             return result[count];
+        }
+
+        [ExcelFunction(Description = "Замена текста по регулярному выражению", Category = "Общие функции", Name = "РЕГУЛЗАМЕН")]
+        public static string RegExPaste([ExcelArgument(Description = "Источник текста", Name = "Текст")] string source,
+                                        [ExcelArgument(Description = "Регулярное выражение", Name = "Паттерн")] string pattern,
+                                        [ExcelArgument(Description = "На что заменить найденные подстроки", Name = "Заменитель")] string replacer)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return $"{nameof(source)} не может быть неопределенным или пустым.";
+            }
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                return $"{nameof(pattern)} не может быть неопределенным или пустым.";
+            }
+
+            if (string.IsNullOrEmpty(replacer))
+            {
+                return $"{nameof(replacer)} не может быть неопределенным или пустым.";
+            }
+
+            Regex reg = new Regex(pattern);
+            return reg.Replace(source, replacer);
+        }
+
+        [ExcelFunction(Description = "Получить квартал из даты", Category = "Общие функции", Name = "КВАРТАЛ")]
+        public static string GetQuater([ExcelArgument(Description = "Дата, из которой следует получить квартал", Name = "Дата")] DateTime source)
+        {
+            int result = source.Month;
+
+            switch (result)
+            {
+                case int range when range >= 1 & range <= 3: return "I квартал";
+                case int range when range >= 4 & range <= 6: return "II квартал";
+                case int range when range >= 7 & range <= 9: return "III квартал";
+                case int range when range >= 10 & range <= 12: return "IV квартал";
+            }
+
+            return default;
         }
     }
 }

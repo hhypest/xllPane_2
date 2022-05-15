@@ -162,7 +162,7 @@ namespace xllPane_2
                 foreach (string key in result)
                 {
                     worksheet.Range[$"A{i}"].Value2 = key;
-                    i += 1;
+                    i++;
                 }
             }
             catch (InvalidCastException e)
@@ -215,7 +215,7 @@ namespace xllPane_2
                 {
                     worksheet.Range[$"A{i}"].Value2 = key.Key;
                     worksheet.Range[$"B{i}"].Value2 = key.Value;
-                    i += 1;
+                    i++;
                 }
             }
             catch (InvalidCastException e)
