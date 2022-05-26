@@ -14,9 +14,9 @@ namespace xllPane_2
             InitializeComponent();
             this.source = source;
 
-            var with = resultlist.Items;
-            foreach (string key in source)
-                with.Add(key);
+            resultlist.Items.AddRange(source
+                                      .Select(item => new ListViewItem(item))
+                                      .ToArray());
         }
 
         public (char[] separator, int count) GetState()
@@ -45,15 +45,13 @@ namespace xllPane_2
         {
             var with = resultlist.Items;
             with.Clear();
-
-            foreach (string key in source)
-                with.Add(key);
+            with.AddRange(source
+                          .Select(item => new ListViewItem(item))
+                          .ToArray());
         }
 
         private void SeparatorBox_TextChanged(object sender, EventArgs e)
-        {
-            separator = SeparatorBox.Text;
-        }
+            => separator = SeparatorBox.Text;
 
         private void ShowButt_Click(object sender, EventArgs e)
         {
@@ -61,7 +59,7 @@ namespace xllPane_2
                 return;
 
             string cast(string value) => value.Split(separator.ToArray())
-                                              .Count() >= NumberSplit.Value
+                                              .Length > NumberSplit.Value
                                               .To<decimal, int>() ?
                                               value.Split(separator.ToArray())[NumberSplit.Value.To<decimal, int>()] :
                                               value;

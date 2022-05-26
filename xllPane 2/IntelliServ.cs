@@ -6,13 +6,9 @@ namespace xllPane_2
     public class IntelliServ : IExcelAddIn
     {
         public void AutoClose()
-        {
-            IntelliSenseServer.Uninstall();
-        }
+            => IntelliSenseServer.Uninstall();
 
         public void AutoOpen()
-        {
-            IntelliSenseServer.Install();
-        }
+            => IntelliSenseServer.Install();
     }
 }

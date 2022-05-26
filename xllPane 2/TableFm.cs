@@ -44,9 +44,9 @@ namespace xllPane_2
 
         private void TableFm_Shown(object sender, System.EventArgs e)
         {
-            foreach (var (key, item) in from ListViewGroup key in TableList.Groups
-                                        from string item in key.Tag as string[]
-                                        select (key, item))
+            foreach ((ListViewGroup key, string item) in from ListViewGroup key in TableList.Groups
+                                                         from string item in key.Tag as string[]
+                                                         select (key, item))
             {
                 TableList.Items.Add(item).Group = key;
             }

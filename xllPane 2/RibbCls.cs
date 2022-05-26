@@ -379,7 +379,9 @@ namespace xllPane_2
                     return;
 
                 object[,] values = range.Value2 as object[,];
-                string[] sample = ArrMearge.ToParse<object, string>(values, 11);
+                string[] sample = ArrMearge.ToParse<object, string>(values, 11)
+                                           .Where(x => !string.IsNullOrWhiteSpace(x))
+                                           .ToArray();
 
                 using (PropFm dialog = new PropFm(sample))
                 {
@@ -387,7 +389,7 @@ namespace xllPane_2
                         return;
 
                     byte state = dialog.GetState();
-                    string cast(object value) => value != null ? value.To<object, string>() : default;
+                    string cast(object value) => value != null ? value.To<object, string>() : " ";
                     TextPaste prop = new TextPaste();
                     string[,] result = prop.GetPasteText(ArrMearge.ToParse(values, cast), prop.CastProp, state);
                     OnOffSelect(false, xlManual, ref app);
@@ -438,8 +440,7 @@ namespace xllPane_2
                 object[,] values = range.Value2 as object[,];
 
                 TextPaste trim = new TextPaste();
-                string[,] result = trim.ToTrim(ArrMearge.ToParse(values, cast));
-                range.Value2 = result;
+                range.Value2 = trim.ToTrim(ArrMearge.ToParse(values, cast));
             }
             catch (InvalidCastException e)
             {
@@ -482,7 +483,9 @@ namespace xllPane_2
                     return;
 
                 object[,] values = range.Value2 as object[,];
-                string[] sample = ArrMearge.ToParse<object, string>(values, 11);
+                string[] sample = ArrMearge.ToParse<object, string>(values, 11)
+                                           .Where(x => !string.IsNullOrWhiteSpace(x))
+                                           .ToArray();
 
                 using (PasteFm dialog = new PasteFm(sample))
                 {
@@ -491,7 +494,7 @@ namespace xllPane_2
 
                     byte state = dialog.GetState();
                     string pastetext = dialog.GetPaste();
-                    string cast(object value) => value != null ? value.To<object, string>() : default;
+                    string cast(object value) => value != null ? value.To<object, string>() : " ";
                     TextPaste paste = new TextPaste();
                     string[,] result = paste.GetPasteText(ArrMearge.ToParse(values, cast), paste.CastPasteText, pastetext, state);
                     OnOffSelect(false, xlManual, ref app);
@@ -539,7 +542,9 @@ namespace xllPane_2
                     return;
 
                 object[,] values = range.Value2 as object[,];
-                string[] sample = ArrMearge.ToParse<object, string>(values, 11);
+                string[] sample = ArrMearge.ToParse<object, string>(values, 11)
+                                           .Where(x => !string.IsNullOrWhiteSpace(x))
+                                           .ToArray();
 
                 using (ReplaceFm dialog = new ReplaceFm(sample))
                 {
@@ -596,7 +601,9 @@ namespace xllPane_2
                     return;
 
                 object[,] values = range.Value2 as object[,];
-                string[] sample = ArrMearge.ToParse<object, string>(values, 8);
+                string[] sample = ArrMearge.ToParse<object, string>(values, 8)
+                                           .Where(x => !string.IsNullOrWhiteSpace(x))
+                                           .ToArray();
 
                 using (SplitFm dialog = new SplitFm(sample))
                 {
@@ -605,7 +612,7 @@ namespace xllPane_2
 
                     (char[] separator, int count) = dialog.GetState();
                     string cast(string value) => value.Split(separator)
-                                                      .Count() >= count ?
+                                                      .Length > count ?
                                                       value.Split(separator)[count] :
                                                       value;
                     string[,] result = new string[values.GetLength(0), values.GetLength(1)];

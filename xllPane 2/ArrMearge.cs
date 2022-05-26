@@ -62,8 +62,8 @@ namespace xllPane_2
                                      out result))
                 {
                     return double.NaN;
-                };
-            };
+                }
+            }
             return result;
         }
 

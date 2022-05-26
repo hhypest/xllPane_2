@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace xllPane_2
 {
-    public partial class TextPaste : object, ITextCast
+    public class TextPaste : object, ITextCast
     {
         public string CastPasteText(byte state, string source, string paste)
         {

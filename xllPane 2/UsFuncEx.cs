@@ -28,9 +28,8 @@ namespace xllPane_2
 
             Regex reg = new Regex(pattern);
             if (!reg.IsMatch(source))
-            {
                 return "Значений не найдено!";
-            };
+
             MatchCollection matches = reg.Matches(source);
             return matches[count].Value;
         }

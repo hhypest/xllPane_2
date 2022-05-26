@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace xllPane_2
@@ -14,9 +15,9 @@ namespace xllPane_2
             this.source = source;
             state = -1;
 
-            var with = resultlist.Items;
-            foreach (string key in source)
-                with.Add(key);
+            resultlist.Items.AddRange(source
+                                      .Select(item => new ListViewItem(item))
+                                      .ToArray());
         }
 
         public byte GetState()

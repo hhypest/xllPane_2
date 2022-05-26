@@ -11,9 +11,9 @@ namespace xllPane_2
         {
             InitializeComponent();
 
-            var with = sheetlist.Items;
-            foreach (string key in source)
-                with.Add(key);
+            sheetlist.Items.AddRange(source
+                                     .Select(item => new ListViewItem(item))
+                                     .ToArray());
         }
 
         public string[] GetNames()

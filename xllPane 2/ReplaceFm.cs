@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -19,9 +18,9 @@ namespace xllPane_2
             this.source = source;
             ReplacerBox.Text = string.Empty;
 
-            var with = resultlist.Items;
-            foreach (string key in source)
-                with.Add(key);
+            resultlist.Items.AddRange(source
+                                      .Select(item => new ListViewItem(item))
+                                      .ToArray());
         }
 
         public (string pattern, string replacement) GetState()
@@ -51,8 +50,9 @@ namespace xllPane_2
             var with = resultlist.Items;
             with.Clear();
 
-            foreach (string key in source)
-                with.Add(key);
+            with.AddRange(source
+                          .Select(item => new ListViewItem(item))
+                          .ToArray());
         }
 
         private void ShowButt_Click(object sender, EventArgs e)
@@ -64,24 +64,19 @@ namespace xllPane_2
             replacer = ReplacerBox.Text;
 
             Regex ex = new Regex(pattern);
-            IEnumerable<string> result = from string c in source
-                                         let k = ex.Replace(c, replacer)
-                                         select k;
 
             var with = resultlist.Items;
             with.Clear();
-            foreach (string key in result)
-                with.Add(key);
+            with.AddRange((from string key in source
+                           let item = ex.Replace(key, replacer)
+                           select new ListViewItem(item))
+                           .ToArray());
         }
 
         private void RegBox_TextChanged(object sender, EventArgs e)
-        {
-            pattern = RegBox.Text;
-        }
+            => pattern = RegBox.Text;
 
         private void ReplacerBox_TextChanged(object sender, EventArgs e)
-        {
-            replacer = ReplacerBox.Text;
-        }
+            => replacer = ReplacerBox.Text;
     }
 }

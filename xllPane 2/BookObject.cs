@@ -8,7 +8,7 @@ using DataTable = System.Data.DataTable;
 
 namespace xllPane_2
 {
-    public partial class BookObject : object, IBookObject
+    public class BookObject : object, IBookObject
     {
         public DataTable GetDataSet(ListObject table)
         {
@@ -48,9 +48,9 @@ namespace xllPane_2
             {
                 if (sheet.Name != item.SheetName)
                     continue;
-                foreach (var (table, name) in from ListObject table in sheet.ListObjects
-                                              from string name in item.TableName
-                                              select (table, name))
+                foreach ((ListObject table, string name) in from ListObject table in sheet.ListObjects
+                                                            from string name in item.TableName
+                                                            select (table, name))
                 {
                     if (table.Name != name)
                         continue;
@@ -111,9 +111,9 @@ namespace xllPane_2
                 {
                     using (ExcelPackage book = new ExcelPackage(stream))
                     {
-                        foreach (var (table, sheet) in from DataTable table in ds.Tables
-                                                       let sheet = book.Workbook.Worksheets.Add(table.TableName)
-                                                       select (table, sheet))
+                        foreach ((DataTable table, ExcelWorksheet sheet) in from DataTable table in ds.Tables
+                                                                            let sheet = book.Workbook.Worksheets.Add(table.TableName)
+                                                                            select (table, sheet))
                         {
                             sheet.Cells["A5"].LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light13);
                         }
@@ -132,14 +132,13 @@ namespace xllPane_2
             })
             {
                 Queue<ListObject[]> list = new Queue<ListObject[]>();
-                foreach ((string SheetName, string[] TableName) key in item)
-                {
-                    list.Enqueue(GetListObject(key, ref workbook));
-                }
 
-                foreach (var table in from ListObject[] tables in list
-                                      from ListObject table in tables
-                                      select table)
+                foreach ((string SheetName, string[] TableName) key in item)
+                    list.Enqueue(GetListObject(key, ref workbook));
+
+                foreach (ListObject table in from ListObject[] tables in list
+                                             from ListObject table in tables
+                                             select table)
                 {
                     ds.Tables.Add(GetDataSet(table));
                 }

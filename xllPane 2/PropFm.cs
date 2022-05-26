@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace xllPane_2
@@ -14,9 +15,9 @@ namespace xllPane_2
             this.value = value;
             state = -1;
 
-            var with = resultlist.Items;
-            foreach (string key in this.value)
-                with.Add(key);
+            resultlist.Items.AddRange(this.value
+                                      .Select(item => new ListViewItem(item))
+                                      .ToArray());
         }
 
         public byte GetState()
@@ -49,8 +50,10 @@ namespace xllPane_2
             state = 0;
             var with = resultlist.Items;
             with.Clear();
-            foreach (string key in value)
-                with.Add(key.ToUpperInvariant());
+            with.AddRange(value
+                          .Select(key => key.ToUpperInvariant())
+                          .Select(item => new ListViewItem(item))
+                          .ToArray());
         }
 
         private void Lowcaseb_CheckedChanged(object sender, System.EventArgs e)
@@ -61,8 +64,10 @@ namespace xllPane_2
             state = 1;
             var with = resultlist.Items;
             with.Clear();
-            foreach (string key in value)
-                with.Add(key.ToLowerInvariant());
+            with.AddRange(value
+                          .Select(key => key.ToLowerInvariant())
+                          .Select(item => new ListViewItem(item))
+                          .ToArray());
         }
 
         private void Propcaseb_CheckedChanged(object sender, System.EventArgs e)
@@ -73,8 +78,10 @@ namespace xllPane_2
             state = 2;
             var with = resultlist.Items;
             with.Clear();
-            foreach (string key in value)
-                with.Add(CultureInfo.InvariantCulture.TextInfo.ToTitleCase(key.ToLowerInvariant()));
+            with.AddRange(value
+                          .Select(key => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(key.ToLowerInvariant()))
+                          .Select(item => new ListViewItem(item))
+                          .ToArray());
         }
     }
 }

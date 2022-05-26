@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DnaLibrary Name="xllPane Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2020/07/dnalibrary">
-	<ExternalLibrary Path="xllPane 2.dll" ExplicitExports="false" LoadFromBytes="true" Pack="false" IncludePdb="false" />
+	<ExternalLibrary Path="xllPane 2.dll" ExplicitExports="false" LoadFromBytes="true" Pack="false" IncludePdb="true" />
 	<CustomUI>
 		<customUI xmlns='http://schemas.microsoft.com/office/2006/01/customui' loadImage='LoadImage'>
 			<ribbon>
