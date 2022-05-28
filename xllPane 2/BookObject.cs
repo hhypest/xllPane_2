@@ -21,18 +21,15 @@ namespace xllPane_2
             })
             {
                 for (int i = header.GetLowerBound(1); i <= header.GetUpperBound(1); i++)
-                {
                     dt.Columns.Add(header[1, i].To<object, string>(), value[1, i].GetType());
-                }
 
                 for (int i = value.GetLowerBound(0); i <= value.GetUpperBound(0); i++)
                 {
                     DataRow row = dt.NewRow();
 
                     for (int j = value.GetLowerBound(1); j <= value.GetUpperBound(1); j++)
-                    {
                         row[j - 1] = value[i, j];
-                    }
+
                     dt.Rows.Add(row);
                 }
 
@@ -48,12 +45,14 @@ namespace xllPane_2
             {
                 if (sheet.Name != item.SheetName)
                     continue;
+
                 foreach ((ListObject table, string name) in from ListObject table in sheet.ListObjects
                                                             from string name in item.TableName
                                                             select (table, name))
                 {
                     if (table.Name != name)
                         continue;
+
                     result.Enqueue(table);
                 }
             }

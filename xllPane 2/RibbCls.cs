@@ -542,6 +542,7 @@ namespace xllPane_2
                     return;
 
                 object[,] values = range.Value2 as object[,];
+
                 string[] sample = ArrMearge.ToParse<object, string>(values, 11)
                                            .Where(x => !string.IsNullOrWhiteSpace(x))
                                            .ToArray();
@@ -611,16 +612,20 @@ namespace xllPane_2
                         return;
 
                     (char[] separator, int count) = dialog.GetState();
+
                     string cast(string value) => value.Split(separator)
                                                       .Length > count ?
-                                                      value.Split(separator)[count] :
-                                                      value;
+                                                      value.Split(separator)[count] : value;
+
                     string[,] result = new string[values.GetLength(0), values.GetLength(1)];
 
                     for (int i = values.GetLowerBound(0); i <= values.GetUpperBound(0); i++)
                     {
                         for (int j = values.GetLowerBound(1); j <= values.GetUpperBound(1); j++)
                         {
+                            if (values[i, j] == null)
+                                continue;
+
                             result[i - 1, j - 1] = cast(values[i, j].To<object, string>());
                         }
                     }
