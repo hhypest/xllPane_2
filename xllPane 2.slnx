@@ -1,0 +1,8 @@
+
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="xllPane.Shared/xllPane.Shared.fsproj" Id="728e1b66-2239-404d-8a26-3b1aef7ce100" />
+</Solution>
