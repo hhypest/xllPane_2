@@ -3,4 +3,5 @@
     <File Path="LICENSE.txt" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="xllPane.Shared/xllPane.Shared.fsproj" Id="9017a1ff-9e9a-43d5-accd-07ca3898e1f1" />
 </Solution>
