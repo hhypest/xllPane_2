@@ -2,9 +2,9 @@
 
 open System
 
-type ErrMessage =
+type ErrorMessage =
     {
         Message: string
         Source: string
-        ErrUtc: DateTime
+        ErrorUtc: DateTime
     }

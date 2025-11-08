@@ -2,10 +2,11 @@
 
 open System
 open System.Threading.Tasks
+open xllPane.Shared.Data
 
-type Result<'TSuccess, 'TFailure> =
+type Result<'TSuccess> =
     | Success of 'TSuccess
-    | Failure of 'TFailure
+    | Failure of ErrorMessage
 
     [<CompiledNameAttribute("IsSuccess")>]
     member public this.isSuccess : bool =
@@ -17,25 +18,19 @@ type Result<'TSuccess, 'TFailure> =
     member public this.isFailure : bool = this.isSuccess |> not
     
     [<CompiledNameAttribute("Map")>]
-    member public this.map<'TNewSuccess> (f: Func<'TSuccess, 'TNewSuccess>) : Result<'TNewSuccess, 'TFailure> =
+    member public this.map<'TNewSuccess> (f: Func<'TSuccess, 'TNewSuccess>) : Result<'TNewSuccess> =
         match this with
         | Success v -> v |> f.Invoke |> Success
         | Failure e -> e |> Failure
 
-    [<CompiledNameAttribute("MapError")>]
-    member public this.mapError<'TNewFailure>(f: Func<'TFailure, 'TNewFailure>) : Result<'TSuccess, 'TNewFailure> =
-        match this with
-        | Success v -> v |> Success
-        | Failure e -> e |> f.Invoke |> Failure
-
     [<CompiledNameAttribute("Bind")>]
-    member public this.bind<'TNewSuccess>(f: Func<'TSuccess, Result<'TNewSuccess, 'TFailure>>) : Result<'TNewSuccess, 'TFailure> =
+    member public this.bind<'TNewSuccess>(f: Func<'TSuccess, Result<'TNewSuccess>>) : Result<'TNewSuccess> =
         match this with
         | Success v -> v |> f.Invoke
         | Failure e -> e |> Failure
 
     [<CompiledName("Match")>]
-    member public this.matchResult<'TResult>(onOk: Func<'TSuccess, 'TResult>, onError: Func<'TFailure, 'TResult>) : 'TResult =
+    member public this.matchResult<'TResult>(onOk: Func<'TSuccess, 'TResult>, onError: Func<ErrorMessage, 'TResult>) : 'TResult =
         match this with
         | Success v -> v |> onOk.Invoke
         | Failure e -> e |> onError.Invoke
@@ -47,7 +42,7 @@ type Result<'TSuccess, 'TFailure> =
         | Failure _ -> onError
 
     [<CompiledName("Match")>]
-    member public this.matchOnOk<'TResult>(onOk: 'TResult, onError: Func<'TFailure, 'TResult>) : 'TResult =
+    member public this.matchOnOk<'TResult>(onOk: 'TResult, onError: Func<ErrorMessage, 'TResult>) : 'TResult =
         match this with
         | Success _ -> onOk
         | Failure e -> e |> onError.Invoke
@@ -59,13 +54,13 @@ type Result<'TSuccess, 'TFailure> =
         | Failure _ -> onError
 
     [<CompiledName("Match")>]
-    member public this.matchUnit(onOk: Action<'TSuccess>, onError: Action<'TFailure>) : unit =
+    member public this.matchUnit(onOk: Action<'TSuccess>, onError: Action<ErrorMessage>) : unit =
         match this with
         | Success v -> v |> onOk.Invoke
         | Failure e -> e |> onError.Invoke
 
     [<CompiledName("Match")>]
-    member public this.matchTask<'TResult>(onOk: Func<'TSuccess, Task<'TResult>>, onError: Func<'TFailure, Task<'TResult>>) : Task<'TResult> =
+    member public this.matchTask<'TResult>(onOk: Func<'TSuccess, Task<'TResult>>, onError: Func<ErrorMessage, Task<'TResult>>) : Task<'TResult> =
         match this with
         | Success v ->
             task {
@@ -79,7 +74,7 @@ type Result<'TSuccess, 'TFailure> =
             }
 
     [<CompiledNameAttribute("Tee")>]
-    member public this.tee(fValue: Action<'TSuccess>, fErr: Action<'TFailure>) : Result<'TSuccess, 'TFailure> =
+    member public this.tee(fValue: Action<'TSuccess>, fErr: Action<ErrorMessage>) : Result<'TSuccess> =
         match this with
         | Success v -> v |> fValue.Invoke; v |> Success
         | Failure e -> e |> fErr.Invoke; e |> Failure

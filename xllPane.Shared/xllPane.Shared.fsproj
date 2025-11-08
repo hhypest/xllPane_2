@@ -6,9 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="features\Converters.fs" />
     <Compile Include="Data\TErrCode.fs" />
 	<Compile Include="Monads\Result.fs" />
-	<Compile Include="monads\Option.fs" />
+	<Compile Include="Monads\Option.fs" />
   </ItemGroup>
 
   <ItemGroup>
